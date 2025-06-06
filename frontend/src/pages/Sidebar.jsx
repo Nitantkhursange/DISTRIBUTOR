@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { FaHome, FaChevronDown, FaChevronRight, FaShieldAlt, FaArrowLeft } from 'react-icons/fa';
+import {
+  FaHome,
+  FaChevronDown,
+  FaChevronRight,
+  FaShieldAlt,
+  FaArrowLeft,
+  FaArrowRight,
+} from 'react-icons/fa';
 import './Sidebar.css';
 
 const menuData = [
@@ -28,32 +35,46 @@ const Sidebar = () => {
     }));
   };
 
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+    if (isOpen) {
+      setOpenMenus({}); // optional: close all submenus when collapsed
+    }
+  };
+
   return (
     <div className={`glass-sidebar ${isOpen ? 'open' : 'collapsed'}`}>
       <div className="sidebar-top">
         <div className="logo-section">
           <FaHome className="home-icon" />
-          <span className="logo-text">Dashboard</span>
+          {isOpen && <span className="logo-text">Dashboard</span>}
         </div>
-        <FaArrowLeft className="toggle-icon" onClick={() => setIsOpen(!isOpen)} />
+        <div className="toggle-icon" onClick={toggleSidebar}>
+          {isOpen ? <FaArrowLeft /> : <FaArrowRight />}
+        </div>
       </div>
+
       <ul className="sidebar-menu">
         {menuData.map(({ key, label, items }) => (
-          <li key={key} className="menu-group">
+          <li key={key} className={`menu-group ${openMenus[key] ? 'open' : ''}`}>
             <div
-              onClick={() => items && toggleMenu(key)}
               className={`menu-header ${!items ? 'no-submenu' : ''}`}
-              style={{ cursor: items ? 'pointer' : 'default' }}
+              onClick={() => items && toggleMenu(key)}
             >
               <span>{label}</span>
-              {items ? (openMenus[key] ? <FaChevronDown /> : <FaChevronRight />) : null}
+              {items && isOpen && (
+                <span className="chevron-icon">
+                  {openMenus[key] ? <FaChevronDown /> : <FaChevronRight />}
+                </span>
+              )}
             </div>
-            {items && openMenus[key] && (
+
+            {items && openMenus[key] && isOpen && (
               <ul className="submenu">
                 {items.map((item, idx) => (
                   <li key={idx} className="submenu-item">
                     <FaShieldAlt className="submenu-icon" />
-                    <span>{item}</span>
+                    <span className="submenu-text">{item}</span>
                   </li>
                 ))}
               </ul>

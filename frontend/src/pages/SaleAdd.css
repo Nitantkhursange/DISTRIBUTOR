@@ -1,20 +1,4 @@
-.layout-container {
-  display: flex;
-  width: 100%;
-  min-height: 100vh;
-  overflow: hidden;
-  background-color: #f8f9ff;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-
-
-
-/* sale */
-   
-
-    /* saleadd */
-      body1 {
+ body1 {
       font-family: 'Poppins', sans-serif;
       background-color: #f4f7fe;
       padding: 30px;
